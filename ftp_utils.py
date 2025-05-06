@@ -18,7 +18,10 @@ def upload_via_ftp(local_path, remote_filename=None, log_path=None, retries=2):
     user = os.getenv('FTP_USER')
     passwd = os.getenv('FTP_PASS')
     remote_dir = os.getenv('FTP_REMOTE_DIR', '/')
-    use_sftp = os.getenv('FTP_USE_SFTP', 'false').lower() == 'true'
+    ftp_use_sftp_raw = os.getenv('FTP_USE_SFTP', 'false').lower()
+    if ftp_use_sftp_raw not in ['true', 'false']:
+        raise ValueError(f"Invalid value for FTP_USE_SFTP environment variable: {ftp_use_sftp_raw}. Please set it to 'true' or 'false'.")
+    use_sftp = ftp_use_sftp_raw == 'true'
 
     if not remote_filename:
         remote_filename = os.path.basename(local_path)
