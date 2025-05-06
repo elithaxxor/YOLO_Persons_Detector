@@ -29,7 +29,7 @@ def upload_via_ftp(local_path, remote_filename=None, log_path=None, retries=2):
             if use_sftp:
                 if paramiko is None:
                     raise ImportError("paramiko is required for SFTP support. Please install it via 'pip install paramiko'.")
-                transport = paramiko.Transport((host, port if port else 22))
+                transport = paramiko.Transport((host, port or 22))
                 transport.connect(username=user, password=passwd)
                 sftp = paramiko.SFTPClient.from_transport(transport)
                 try:
